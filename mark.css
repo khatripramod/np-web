@@ -24,7 +24,7 @@ nav ul li a{
 a.active,a:hover{
     transition: .5s;
     cursor: pointer;
-    color: lightblue;
+    color: goldenrod;
 }
 .marquee{
     width: 130%;

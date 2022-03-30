@@ -11,7 +11,34 @@
     display: flex;
     
 }
+.pic{
+    max-height: 280px;
+}
+.insta{
+    max-height: 50px;
+    display:block;
+    cursor: pointer;
+}
+.insta{
+    transform: scale(1);
+    transition: 00.3s ease-in-out;
+}
+.insta:hover{
+    transform: scale(0.5);
 
+}
+.facb{
+    max-height: 50px;
+    display:block;
+    cursor: pointer;
+}
+.facb{
+    transform: scale(1);
+    transition: 00.3s ease-in-out;
+}
+.facb:hover{
+    transform: scale(0.5);
+}
 .submit{
     width: 70px;
     height: 30px;
@@ -42,7 +69,7 @@
 .submit1:hover {
     box-shadow: inset 0 0 0 0 #FF8E8E   ;
     cursor: pointer;
-    color: gold;
+    color: lightblue;
 }
 .submit2{
     width: 70px;
