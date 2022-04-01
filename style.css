@@ -39,6 +39,18 @@
 .facb:hover{
     transform: scale(0.5);
 }
+.gmail{
+    max-height: 55px;
+    display:block;
+    cursor: pointer;
+}
+.gmail{
+    transform: scale(1);
+    transition: 00.3s ease-in-out;
+}
+.gmail:hover{
+    transform: scale(0.5);
+}
 .submit{
     width: 70px;
     height: 30px;
