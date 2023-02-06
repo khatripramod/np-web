@@ -1,3 +1,6 @@
+<?php
+require_once 'connect.php';
+?>
 <html>
 <head>
   <title>KHATRI</title>
@@ -8,7 +11,7 @@
 </head>
 <body style="background-color:white ;"></body>
 <div style= "position:absolute; left:-10px; top:-40px;">
-  <a href="#" onclick="location.reload();">
+<a aria-label href="">
 <img src="Khatri.png" class="pic" />
 </a>
 </div>
@@ -31,7 +34,7 @@
   <link rel="stylesheet" href="mark.css">
 <nav>
   <ul>
-    <li><a href="index.html">Home</a></li>
+    <li><a href="">Home</a></li>
     <li><a href="#">Services</a></li>
     <li><a href="#">Settings</a></li>
     <li><a href="#">About</a></li>
@@ -41,9 +44,9 @@
 </div>
 <div>
   <div style= "position:absolute; left:1353px; top:110px;">
-      <a href="login.html">
+      <a href="login.php">
   <button class="submit">login</button></a>
-  <a href="signup.html">
+  <a href="signup.php">
   <button class="submit1">Signup</button></a>
 </div>
 <div style= "position:absolute; left:1315px; top:75px;">

@@ -8,21 +8,22 @@
 </div>
 </div>
 <div style= "position:absolute; left:-10px; top:-40px;">
-<a href="index.html">
+<a href="index.php">
 <img src="Khatri.png" height="280" />
 </a>
 </div>
 <div>
   <link rel="stylesheet" href="loginstyle.css">
 <div style= "position:absolute; left:1200px; top:20px;">
+  <form method=""post" action="pop.php">
     <div class="container">
       <label for="uname"><b></b></label>
-      <input type="text"  class="uname" placeholder="Enter username" required>
+      <input type="text"  class="uname" placeholder="Enter username" name="user" required>
 	  </div>
     <div class="container">
 	  <div>
       <label for="psw"><b></b></label>
-      <input type="password" placeholder="Enter password" class="pass" required>
+      <input type="password" placeholder="Enter password" class="pass" name="pass" required>
 	  </div>
     </div>
 	  <div>
@@ -31,9 +32,6 @@
     </label>
 	  <div>
       <button class="submit">login</button>
-      <a href="signup.html">
-      <button class="submit1">Signup</button></a>
-    <label>
 	</div>
 	</div>
 	</form>
@@ -43,6 +41,7 @@
 <div>
   <span class="psw"><a href="fogpass.html">Forgot Password?</a></span>
 </div>
+</form>
 </div>
 </div>
 
