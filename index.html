@@ -15,23 +15,33 @@
 		<h1 id="welcome">PORTFOLIO.</h1>
 		</div>
 	</header>
-
-	<nav class="navbar">
-		<a href="#">HOME</a>
-		<a href="#">ABOUT</a>
-		<a href="#">SERVICES</a>
+	<div class="navbar" id="myNavbar">
+		<a href="#home" class="active">HOME</a>
+		<a href="#about">ABOUT</a>
+		<a href="#services">SERVICES</a>
 		<a href="#contact">CONTACT</a>
-	</nav>
-	<br>
-	<br>
+		<a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+	  </div>
+	  
+	  <script>
+		/* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
+		function myFunction() {
+		  var x = document.getElementById("myNavbar");
+		  if (x.className === "navbar") {
+			x.className += " responsive";
+		  } else {
+			x.className = "navbar";
+		  }
+		}
+	  </script>
+	  
 	<section>
 		
 	</section>
 <section>
 		<div class="container">
-				<div><img src="gmail.png" class="icon" >khatripramod451@gmail.com</div>
-				<div><img src="location.png" class="icon"></div>
-				<div><img src="phone.png" class="icon">+977 9808113864</div>
+				<div><img src="gmail.png" class="icons" >khatripramod451@gmail.com </div>
+				<div><img src="phone.png" class="icons">+977 9808113864</div>
 			<form id="contact">
 			<h3>Get in Touch</h3>
 			<p>I am always open to discussing new ideas and challenges please feel free to contact me.</p>

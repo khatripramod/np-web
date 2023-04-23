@@ -24,20 +24,38 @@ body {
     justify-content: center;
     align-items: center;
     font-weight: 500;
+    overflow: hidden;
 }
-nav a {
-    color: #000000;
+  
+  /* Navigation links */
+  .navbar a {
+    float: left;
+    color:black;
+    text-align: center;
     padding: 10px;
+    text-decoration: none;
     font-size: 20px;
-    text-decoration:none;
-    text-transform: uppercase;
     margin: 10px;
-}
-a.active,a:hover{
+  }
+  
+  
+  /* Change color on hover */
+  .navbar a:hover {
+    background-color: #ddd;
+    color: red;
+    box-shadow: inset 20px 15px 15px 15px #52eecf;
+    border-radius: 9px;
+    transition: ease-out 0.3s;
+    outline: none;
+  }
+  
+  /* Active/current link */
+  .navbar a.active ,a:hover {
+    background-color: transparent;
     transition: .5s;
     cursor: pointer;
-    color: rgb(255, 0, 0);
-}
+    color: rgb(0, 0, 0);
+  }
 section {
     padding: 20px;
     text-align: center;
@@ -71,7 +89,7 @@ footer {
     color: #ffffff;
     padding: 45px;
     border-radius: 10px;
-    box-shadow: 10px 10px 10px aquamarine;
+    box-shadow: 10px 10px 10px rgb(50, 255, 187);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -108,27 +126,27 @@ textarea{
     cursor: pointer;
     color: gold;
 }
-.icon{
+.icons{
         max-height: 80px;
         display:block;
         cursor: pointer;
     }
-    .icon{
+    .icons{
         transform: scale(1);
         transition: 00.3s ease-in-out;
     }
-    .icon:hover{
+    .icons:hover{
         transform: scale(0.5);
 }
 .email{
     text-align: center;
 }
+.icon{
+    display: none;
+}
 
-@media only screen and (max-width: 600px) {
-    .navbar {
-        flex-direction: column;
-    }
-    nav a {
+@media only screen and (max-width: 500px) {
+    .navbar a {
         margin: 5px;
     }
     section {
@@ -148,4 +166,48 @@ textarea{
         bottom: 0;
         right: 0;
     }
-}
+    .txt{
+        background: white;
+        border: 2px solid lightgrey;
+        border-radius: 8px; 
+        width: 200px;
+        height: 30px;
+        text-align: right;
+    }
+    textarea{
+        background: white;
+        border: 2px solid lightgrey;
+        border-radius: 8px; 
+        width: 250px;
+        height: 100px;
+    }
+    footer {
+        background-color: #40d6bd;
+        color: #fff;
+        padding: 40px;
+        text-align: center;
+        width:100%;
+    }
+    .navbar a:not(:first-child) {display: none;}
+      .navbar a.right {
+        float: none;
+        display: block;
+      }
+      .navbar a.icon {
+        float: right;
+        display: block;
+      }
+      .navbar.responsive {position: relative;}
+      .navbar.responsive .icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+      .navbar.responsive a {
+        float: none;
+        display: block;
+        text-align: left;
+      }
+    }
+
+
