@@ -6,6 +6,15 @@
 	<title>KHATRI</title>
     <link rel="icon" type="image/x-icon" href="icon.png">
     <link rel="stylesheet" href="style.css">
+	<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("krk9HKuiVj6SK4dPi");
+   })();
+</script>
+<script src="email.js"></script>
 </head>
 <body>
 	<header class="header">
@@ -16,8 +25,9 @@
 		</div>
 	</header>
 	<div class="navbar" id="myNavbar">
-		<a href="#home" class="active">HOME</a>
+		<a href="">HOME</a>
 		<a href="#about">ABOUT</a>
+		<a href="#projects">PROJECTS</a>
 		<a href="#services">SERVICES</a>
 		<a href="#contact">CONTACT</a>
 		<a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
@@ -35,20 +45,21 @@
 		}
 	  </script>
 	  
-	<section>
+	<section id="about">
+
 		
 	</section>
 <section>
-		<div class="container">
+		<div class="container" id="contact">
 				<div><img src="gmail.png" class="icons" >khatripramod451@gmail.com </div>
 				<div><img src="phone.png" class="icons">+977 9808113864</div>
-			<form id="contact">
+			<form>
 			<h3>Get in Touch</h3>
 			<p>I am always open to discussing new ideas and challenges please feel free to contact me.</p>
-			<input type="text" placeholder="Enter You Name" class="txt"><br><br>
-			<input type="email" placeholder="Enter You email" class="txt" required><br><br>
-			<textarea placeholder="Enter your message"></textarea><br>
-			<button type="submit" class="send" value="send message">Send</button>
+			<input type="text" placeholder="Enter Your Name" id="name" class="txt"><br><br>
+			<input type="email" placeholder="Enter Your email" id="email" class="txt" required><br><br>
+			<textarea placeholder="Enter your message" id="message"></textarea><br>
+			<button type="submit" class="send" value="send message" onclick="sendMail()">Send</button>
 		</form>
 		</div>
 	</section>

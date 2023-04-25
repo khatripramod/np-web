@@ -44,7 +44,7 @@ body {
     background-color: #ddd;
     color: red;
     box-shadow: inset 20px 15px 15px 15px #52eecf;
-    border-radius: 9px;
+    border-radius: 35px;
     transition: ease-out 0.3s;
     outline: none;
   }
@@ -92,20 +92,21 @@ footer {
     box-shadow: 10px 10px 10px rgb(50, 255, 187);
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
+    flex-direction: row;
     align-items: center;
 
 }
 .txt{
     background: white;
-    border: 2px solid lightgrey;
+    border: 1px solid lightgrey;
     border-radius: 8px; 
     width: 400px;
     height: 30px;
 }
 textarea{
     background: white;
-    border: 2px solid lightgrey;
+    border: 1px solid lightgrey;
     border-radius: 8px; 
     width: 450px;
     height: 100px;
@@ -146,7 +147,7 @@ textarea{
 }
 
 @media only screen and (max-width: 500px) {
-    .navbar a {
+    .navbar a{
         margin: 5px;
     }
     section {
@@ -161,24 +162,19 @@ textarea{
         bottom: 0;
         right: 0;
     }
-    .container{
-        top: auto;
-        bottom: 0;
-        right: 0;
-    }
     .txt{
         background: white;
-        border: 2px solid lightgrey;
+        border: 1px solid lightgrey;
         border-radius: 8px; 
-        width: 200px;
+        width: 300px;
         height: 30px;
-        text-align: right;
+        text-align: left;
     }
     textarea{
         background: white;
-        border: 2px solid lightgrey;
+        border: 1px solid lightgrey;
         border-radius: 8px; 
-        width: 250px;
+        width: 350px;
         height: 100px;
     }
     footer {
@@ -188,26 +184,44 @@ textarea{
         text-align: center;
         width:100%;
     }
+    .navbar{
+        flex-direction: column;
+        display: flex;
+        position: relative;
+        justify-content: flex-end;
+    }
     .navbar a:not(:first-child) {display: none;}
       .navbar a.right {
         float: none;
-        display: block;
+        display: inline-block;
       }
       .navbar a.icon {
         float: right;
-        display: block;
+        display:flex;
       }
-      .navbar.responsive {position: relative;}
+      .navbar .responsive {position: absolute;}
       .navbar.responsive .icon {
-        position: absolute;
+        position: relative;
+        display: inline-block;
         right: 0;
         top: 0;
       }
       .navbar.responsive a {
-        float: none;
+        float: left;
         display: block;
-        text-align: left;
-      }
+        text-align: center;
     }
-
+    .container{
+        flex-shrink: none;
+        background: #ffffff;
+        color: #000000;
+        box-shadow: none;
+    }
+    .send{
+       
+        background-color: black ;
+        color: white;
+        
+    }
+}
 
