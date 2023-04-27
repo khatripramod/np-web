@@ -15,6 +15,10 @@ body {
 #welcome{
     text-align: center;
 }
+#welcome2{
+    text-align: center;
+    color: rgb(255, 0, 0);
+}
 .navbar {
     background-color:transparent;
     padding: 1px;
@@ -56,16 +60,28 @@ body {
     cursor: pointer;
     color: rgb(0, 0, 0);
   }
-section {
+  .home{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .homeimg{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: 200px;
+    
+  }
+.contacts {
     padding: 20px;
     text-align: center;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
-section img {
-    max-width: 50%;
-    height: auto;
-    margin-right: 20px;
+.about{
+    padding: 20px;
+    text-align: center;
 }
 footer {
     background-color: #40d6bd;
@@ -127,6 +143,17 @@ textarea{
     cursor: pointer;
     color: gold;
 }
+.CVbtn{
+    width: 70px;
+    height: 30px;
+    color: black;
+    background-color: rgb(255, 255, 255) ;
+    border-radius: 4px;
+    box-shadow: inset 0 0 0 0 #d7ff8e  ;
+    transition: ease-out 0.3s;
+    outline: none; 
+    cursor: pointer;
+}
 .icons{
         max-height: 80px;
         display:block;
@@ -145,15 +172,38 @@ textarea{
 .icon{
     display: none;
 }
+.animated-text {
+    position: relative;
+    height: 70px;
+    overflow: hidden;
+  }
+.animated-text h1:nth-child(1) {
+    animation: text-move 8s infinite;
+  }
+  
+  @keyframes text-move {
+    0% {
+      margin-top: 0;
+    }
+    25% {
+      margin-top: -70px;
+    }
+    50% {
+      margin-top: -70px;
+    }
+    100% {
+      margin-top: 0;
+    }
+}
 
 @media only screen and (max-width: 500px) {
     .navbar a{
         margin: 5px;
     }
-    section {
+    .contacts {
         flex-direction: column;
     }
-    section img {
+    .contacts img {
         margin-right: 0;
         margin-bottom: 20px;
     }
