@@ -299,8 +299,8 @@ button[onclick="clearOrder()"]:hover::after {
 }
 /* Styling for quantity adjustment buttons */
 .quantity-btn {
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 15px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -339,6 +339,82 @@ button[onclick="clearOrder()"]:hover::after {
 .quantity-btn:active {
     transform: scale(0.95);
 }
+.add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    font-weight: 600;
+    border-radius: 7px;
+    border: none;
+    box-shadow: 0 3px 8px rgba(217, 119, 6, 0.25);
+    transition: all 0.3s ease;
+    letter-spacing: 0.3px;
+    position: relative;
+    overflow: hidden;
+}
+
+
+
+.add-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(217, 119, 6, 0.2);
+}
+
+.add-btn svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+   
+}
+
+.add-btn:hover svg {
+    transform: rotate(90deg);
+}
+
+.add-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background: rgba(255, 255, 255, 0.15);
+    transition: height 0.3s ease;
+    z-index: 1;
+}
+
+/* Add spacing between category buttons and menu items */
+.horizontal-menu {
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid rgba(204, 143, 100, 0.2);
+}
+
+/* Optional: Add a subtle visual indicator */
+.horizontal-menu::before {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(to right, #cc8f64, transparent);
+    margin-bottom: 15px;
+    border-radius: 2px;
+}
+
+/* Enhance the category selection area */
+.flex.flex-wrap.gap-2 {
+    padding-bottom: 15px;
+    position: relative;
+}
+/* Center the "Chiya and Cheers" header text */
+.header-gradient h1 {
+    width: 100%;
+    text-align: center;
+}
+
     </style>
 </head>
 <body>
