@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiya House</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <style>
+        /* Custom CSS for better UI */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f5f1;
+        }
+        
+        .header-gradient {
+            background: linear-gradient(to right, #cc8f64, #ebba7a);
+        }
+        
+        .menu-item {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-3px);
+            border-left: 3px solid #ffb95d;
+        }
+        
+        .category-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background-color: #f3f4f6;
+            color: #4b5563;
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn.active {
+            background-color: #cc8f64;
+            color: white;
+        }
+        
+        .category-btn:hover {
+            background-color: #cc8f64;
+            color: white;
+        }
+        
+        .horizontal-menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .item-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .bill-container {
+            background: linear-gradient(to bottom, #fff, #f9f9f9);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        /* Animation for add button */
+        .add-btn {
+            transition: all 0.2s ease;
+            margin-left: 20px;
+        }
+        
+        .add-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Custom scrollbar for order items */
+        #orderItems::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        #orderItems::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        #orderItems::-webkit-scrollbar-thumb {
+            background: #d0a072;
+            border-radius: 10px;
+        }
+        
+        /* Table styling for order items */
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .order-table th, .order-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .order-table th {
+            background-color: #f9fafb;
+            color: #4b5563;
+        }
+        
+        .order-table td {
+            color: #6b7280;
+        }
+        
+        .order-table tr:hover {
+            background-color: #f9fafb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header-gradient text-white py-4 shadow-md">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex flex-col items-center">
+                <h1 class="text-3xl font-bold text-center">Chiya and Cheers</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto p-4 mt-4">
+        <div class="grid lg:grid-cols-3 gap-6">
+            <!-- Menu Section -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Categories -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="showCategory('all', event)" class="category-btn">All</button>
+                    <button onclick="showCategory('tea', event)" class="category-btn">Tea</button>
+                    <button onclick="showCategory('coffee', event)" class="category-btn">Coffee</button>
+                    <button onclick="showCategory('snacks', event)" class="category-btn">Snacks</button>
+                </div>
+
+                <!-- Menu Items - Horizontal Layout -->
+                <div id="menuItems" class="horizontal-menu"></div>
+            </div>
+
+            <!-- Bill Section -->
+            <div class="bill-container p-5 h-fit sticky top-4">
+                <div class="flex justify-between items-center mb-5">
+                    <h2 class="text-xl font-bold text-amber-900">Your Order</h2>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">Table:</span>
+                        <select id="tableNo" class="border border-amber-200 rounded-md px-3 py-1 bg-amber-50 text-amber-900 focus:outline-none focus:ring-2 focus:ring-amber-300 transition-all">
+                            <option value="1">Table 1</option>
+                            <option value="2">Table 2</option>
+                            <option value="3">Table 3</option>
+                            <option value="4">Table 4</option>
+                            <option value="5">Table 5</option>
+                        </select>
+                    </div>
+                </div>
+            
+                <!-- Order Items Table -->
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Price</th>
+                            <th>Qty</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderItems">
+                        <tr>
+                            <td colspan="5" class="text-center text-gray-500">No items added</td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <!-- Total -->
+                <div class="mt-5">
+                    <div class="flex justify-between text-lg font-bold text-amber-900 pt-2">
+                        <span>Total:</span>
+                        <span id="total">Rs. 0</span>
+                    </div>
+                </div>
+            
+                <!-- Buttons -->
+                <div class="mt-5 space-y-3">
+                    <button onclick="generateBill()" class="w-full bg-amber-800 hover:bg-amber-700 text-white py-3 rounded-lg shadow-sm transition-all flex items-center justify-center">
+                        <span class="mr-2">📝</span> Generate Bill
+                    </button>
+                    <button onclick="clearOrder()" class="w-full border border-gray-300 hover:bg-gray-100 py-3 rounded-lg transition-all">
+                        Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const menu = {
+            tea: [
+                { id: 1, name: 'Masala Chiya', price: 40 },
+                { id: 2, name: 'Plain Tea', price: 30 },
+                { id: 3, name: 'Lemon Tea', price: 35 },
+                { id: 4, name: 'Green Tea', price: 35 },
+                { id: 5, name: 'Black Tea', price: 30 }
+            ],
+            coffee: [
+                { id: 6, name: 'Black Coffee', price: 50 },
+                { id: 7, name: 'Milk Coffee', price: 60 },
+                { id: 8, name: 'Hot Latte', price: 120 },
+                { id: 9, name: 'Cappuccino', price: 120 },
+                { id: 10, name: 'Americano', price: 100 }
+            ],
+            snacks: [
+                { id: 11, name: 'Samosa', price: 40 },
+                { id: 12, name: 'Paratha', price: 60 },
+                { id: 13, name: 'Pakauda', price: 50 },
+                { id: 14, name: 'Noodles', price: 120 },
+                { id: 15, name: 'French Fries', price: 100 }
+            ]
+        };
+
+        let currentOrder = [];
+
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+            document.getElementById('currentDate').textContent = now.toLocaleDateString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Show category
+        function showCategory(category, e) {
+            const menuContainer = document.getElementById('menuItems');
+            menuContainer.innerHTML = '';
+
+            // Update category buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (e && e.target) {
+                e.target.classList.add('active');
+            }
+
+            let items = [];
+            if (category === 'all') {
+                items = [...menu.tea, ...menu.coffee, ...menu.snacks];
+            } else {
+                items = menu[category];
+            }
+
+            items.forEach(item => {
+                const itemElement = `
+                    <div class="item-card menu-item w-full">
+                        <div class="flex-1">
+                            <h3 class="font-medium text-amber-900">${item.name}</h3>
+                            <div class="text-amber-600 font-medium">Rs. ${item.price}</div>
+                        </div>
+                        <button onclick="addToOrder(${item.id})" 
+                            class="add-btn px-4 py-2 bg-amber-800 text-white rounded-lg hover:bg-amber-700 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                            Add
+                        </button>
+                    </div>
+                `;
+                menuContainer.innerHTML += itemElement;
+            });
+        }
+
+        // Add to order
+        function addToOrder(id) {
+            const allItems = [...menu.tea, ...menu.coffee, ...menu.snacks];
+            const item = allItems.find(i => i.id === id);
+            const existingItem = currentOrder.find(i => i.id === id);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                currentOrder.push({ ...item, quantity: 1 });
+            }
+            updateBill();
+        }
+
+        // Update bill
+        function updateBill() {
+            const orderContainer = document.getElementById('orderItems');
+            
+            if (currentOrder.length === 0) {
+                orderContainer.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center text-gray-500">No items added</td>
+                    </tr>
+                `;
+                document.getElementById('total').textContent = 'Rs. 0';
+                return;
+            }
+
+            orderContainer.innerHTML = currentOrder.map(item => `
+                <tr>
+                    <td class="text-amber-900 font-medium">${item.name}</td>
+                    <td class="text-amber-700">Rs. ${item.price}</td>
+                    <td class="text-amber-700">${item.quantity}</td>
+                    <td class="font-medium">Rs. ${item.price * item.quantity}</td>
+                    <td>
+                        <button onclick="removeFromOrder(${item.id})" class="text-red-500 hover:bg-red-50 h-6 w-6 rounded-full flex items-center justify-center transition-colors">
+                            x
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            const total = currentOrder.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('total').textContent = `Rs. ${total}`;
+        }
+
+        // Remove from order
+        function removeFromOrder(id) {
+            currentOrder = currentOrder.filter(item => item.id !== id);
+            updateBill();
+        }
+
+        // Generate bill
+        function generateBill() {
+            if (currentOrder.length === 0) {
+                alert('Please add items to generate bill');
+                return;
+            }
+            
+            const tableNo = document.getElementById('tableNo').value;
+            const total = document.getElementById('total').textContent;
+            
+            let billDetails = `Bill for Table ${tableNo}\n\n`;
+            billDetails += `Item\t\tPrice\tQty\tTotal\n`;
+            billDetails += `----------------------------------------\n`;
+            currentOrder.forEach(item => {
+                billDetails += `${item.name}\tRs.${item.price}\t${item.quantity}\tRs.${item.price * item.quantity}\n`;
+            });
+            billDetails += `----------------------------------------\n`;
+            billDetails += `Total: ${total}`;
+            
+            alert(billDetails);
+            clearOrder();
+        }
+
+        // Clear order
+        function clearOrder() {
+            currentOrder = [];
+            updateBill();
+        }
+
+        // Initialize
+        showCategory('all');
+    </script>
+</body>
+</html>
