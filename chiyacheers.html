@@ -170,7 +170,7 @@
                     <button onclick="showCategory('all', event)" class="category-btn">All</button>
                     <button onclick="showCategory('tea', event)" class="category-btn">Tea</button>
                     <button onclick="showCategory('coffee', event)" class="category-btn">Coffee</button>
-                    <button onclick="showCategory('snacks', event)" class="category-btn">Snacks</button>
+                    <button onclick="showCategory('food', event)" class="category-btn">Food</button>
                 </div>
 
                 <!-- Menu Items - Horizontal Layout -->
@@ -239,11 +239,13 @@
     <script>
         const menu = {
             tea: [
-                { id: 1, name: 'Masala Chiya', price: 40 },
-                { id: 2, name: 'Plain Tea', price: 30 },
-                { id: 3, name: 'Lemon Tea', price: 35 },
-                { id: 4, name: 'Green Tea', price: 35 },
-                { id: 5, name: 'Black Tea', price: 30 }
+                { id: 1, name: 'Masala milk Tea', price: 40 },
+                { id: 2, name: 'Milk Tea', price: 30 },
+                { id: 3, name: 'Matka milk Tea', price: 50 },
+                { id: 4, name: 'Lemon Tea', price: 35 },
+                { id: 5, name: 'Black Tea', price: 30 },
+                { id: 6, name: 'Masala Black Tea', price: 40 },
+                { id: 7, name: 'Hot Lemon with Honey', price: 40 }
             ],
             coffee: [
                 { id: 6, name: 'Black Coffee', price: 50 },
@@ -252,12 +254,15 @@
                 { id: 9, name: 'Cappuccino', price: 120 },
                 { id: 10, name: 'Americano', price: 100 }
             ],
-            snacks: [
-                { id: 11, name: 'Samosa', price: 40 },
-                { id: 12, name: 'Paratha', price: 60 },
-                { id: 13, name: 'Pakauda', price: 50 },
-                { id: 14, name: 'Noodles', price: 120 },
-                { id: 15, name: 'French Fries', price: 100 }
+            food: [
+                { id: 11, name: 'Chicken MoMo', price: 180 },
+                { id: 12, name: 'Buff MoMo', price: 140 },
+                { id: 13, name: 'Masala Fries', price: 120 },
+                { id: 14, name: 'Chauchau Sadeko', price: 120 },
+                { id: 15, name: 'Peanut Sadeko', price: 100 },
+                { id: 16, name: 'Chicken sausage', price: 60 },
+                { id: 17, name: 'Buff sausage', price: 50 }
+                
             ]
         };
 
@@ -290,7 +295,7 @@
 
             let items = [];
             if (category === 'all') {
-                items = [...menu.tea, ...menu.coffee, ...menu.snacks];
+                items = [...menu.tea, ...menu.coffee, ...menu.food];
             } else {
                 items = menu[category];
             }
@@ -317,7 +322,7 @@
 
         // Add to order
         function addToOrder(id) {
-            const allItems = [...menu.tea, ...menu.coffee, ...menu.snacks];
+            const allItems = [...menu.tea, ...menu.coffee, ...menu.food];
             const item = allItems.find(i => i.id === id);
             const existingItem = currentOrder.find(i => i.id === id);
 
