@@ -433,10 +433,10 @@ button[onclick="clearOrder()"]:hover::after {
             <div class="lg:col-span-2 space-y-6">
                 <!-- Categories -->
                 <div class="flex flex-wrap gap-2">
-                    <button onclick="showCategory('all', event)" class="category-btn active">All</button>
-                    <button onclick="showCategory('tea', event)" class="category-btn">Tea</button>
+                    <button onclick="showCategory('tea', event)" class="category-btn active">Tea</button>
                     <button onclick="showCategory('coffee', event)" class="category-btn">Coffee</button>
                     <button onclick="showCategory('food', event)" class="category-btn">Food</button>
+                    <button onclick="showCategory('all', event)" class="category-btn">All</button>
                 </div>
 
                 <!-- Menu Items - Horizontal Layout -->
@@ -813,7 +813,7 @@ function decreaseQuantity(id) {
         }
 
         // Initialize
-        showCategory('all');
+        showCategory('tea');
     </script>
 </body>
 </html>
