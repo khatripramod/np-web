@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chiya and Cheers</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+
     <style>
         /* Custom CSS for better UI */
         body {
@@ -116,14 +118,45 @@
         .order-table tr:hover {
             background-color: #f9fafb;
         }
+        /* Custom styling for the select element */
+.custom-table-select {
+    width: 200px; /* Adjust width */
+    padding: 10px 15px; /* Adjust padding */
+    border-radius: 8px; /* Rounded corners */
+    border: 2px solid #fbbf24; /* Amber border color */
+    background-color: #ffffff; /* Light amber background */
+    color: #000000; /* Amber text color */
+    font-size: 14px; /* Font size */
+    font-family: 'Arial', sans-serif; /* Font family */
+    transition: all 0.3s ease; /* Smooth transition on focus */
+}
+
+/* Focus effect when the select is clicked */
+.custom-table-select:focus {
+    outline: none;
+    border-color: #d97706; /* Darker amber on focus */
+    box-shadow: 0 0 5px rgba(250, 186, 53, 0.5); /* Amber glow effect */
+}
+
+/* Style for the options inside the select dropdown */
+.custom-table-select option {
+    padding: 8px 10px;
+    background-color: #fef3c7; /* Light amber background */
+    color: #000000; /* Amber text color */
+}
+
+.custom-table-select option:hover {
+    background-color: #fcd34d; /* Darker amber on hover */
+}
+
     </style>
 </head>
 <body>
     <!-- Header -->
-    <div class="header-gradient text-white py-4 shadow-md">
+    <div class="header-gradient text-white py-12 shadow-md">
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex flex-col items-center">
-                <h1 class="text-3xl font-bold text-center">Chiya and Cheers</h1>
+                <h1 class="text-3xl font-bold text-center" style="font-family: 'Dancing Script', cursive;">Chiya and Cheers</h1>
             </div>
         </div>
     </div>
@@ -150,14 +183,18 @@
                     <h2 class="text-xl font-bold text-amber-900">Your Order</h2>
                     <div class="flex items-center gap-2">
                         <span class="text-sm text-gray-600">Table:</span>
-                        <select id="tableNo" class="border border-amber-200 rounded-md px-3 py-1 bg-amber-50 text-amber-900 focus:outline-none focus:ring-2 focus:ring-amber-300 transition-all">
+                        <select id="tableNo" onchange="switchTable()" class="custom-table-select">
                             <option value="1">Table 1</option>
                             <option value="2">Table 2</option>
                             <option value="3">Table 3</option>
                             <option value="4">Table 4</option>
                             <option value="5">Table 5</option>
+                            <option value="6">Table 6</option>
+                            <option value="7">Table 7</option>
+                            <option value="8">Table 8</option>
+                            <option value="9">Table 9</option>
                         </select>
-                    </div>
+                </div>        
                 </div>
             
                 <!-- Order Items Table -->
@@ -224,7 +261,9 @@
             ]
         };
 
-        let currentOrder = [];
+        let ordersByTable = {}; // Object to store orders by table number
+        let currentTable = '1'; // Default table number
+        let currentOrder = []; // Current order for the selected table
 
         // Update time
         function updateTime() {
@@ -354,6 +393,23 @@
         // Clear order
         function clearOrder() {
             currentOrder = [];
+            updateBill();
+        }
+
+        // Switch table
+        function switchTable() {
+            const newTable = document.getElementById('tableNo').value;
+
+            // Save the current order to the ordersByTable object
+            ordersByTable[currentTable] = currentOrder;
+
+            // Update the current table
+            currentTable = newTable;
+
+            // Load the order for the new table
+            currentOrder = ordersByTable[currentTable] || [];
+
+            // Update the bill display
             updateBill();
         }
 
