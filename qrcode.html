@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elegant QR & Barcode Generator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 600px;
+      width: 100%;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+    }
+    
+    h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #2d3748;
+      font-weight: 600;
+      text-align: center;
+    }
+    
+    .input-group {
+      margin: 25px 0;
+      position: relative;
+    }
+    
+    input {
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      background: #f8fafc;
+      transition: all 0.3s;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #4299e1;
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+    }
+    
+    button {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(90deg, #4299e1 0%, #667eea 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(66, 153, 225, 0.3);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    .output {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px dashed #e2e8f0;
+      display: none;
+    }
+    
+    .output-section {
+      margin-bottom: 30px;
+    }
+    
+    h3 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: #4299e1;
+      font-weight: 500;
+    }
+    
+    .code-display {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      display: inline-block;
+      margin: 0 auto;
+    }
+    
+    #qrcode img {
+      display: block;
+      margin: 0 auto;
+    }
+    
+    .waiter-container {
+      height: 150px;
+      position: relative;
+      margin: 40px 0 20px;
+      display: none;
+    }
+    
+    .waiter {
+      position: absolute;
+      left: -150px;
+      bottom: 0;
+      width: 100px;
+      height: 150px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 150'%3E%3C!-- Waiter body --%3E%3Crect x='40' y='50' width='20' height='50' fill='%23333'/%3E%3C!-- Head --%3E%3Ccircle cx='50' cy='30' r='20' fill='%23f5d7b5'/%3E%3C!-- Bow tie --%3E%3Crect x='45' y='50' width='10' height='5' fill='%23cc0000'/%3E%3C!-- Arms --%3E%3Crect x='20' y='60' width='30' height='8' fill='%23333'/%3E%3Crect x='50' y='60' width='30' height='8' fill='%23333'/%3E%3C!-- Left hand raised with tray --%3E%3Ccircle cx='20' cy='64' r='5' fill='%23f5d7b5'/%3E%3Crect x='5' y='55' width='30' height='5' fill='%23a0522d'/%3E%3C!-- Face features --%3E%3Ccircle cx='43' cy='28' r='2' fill='%23333'/%3E%3Ccircle cx='57' cy='28' r='2' fill='%23333'/%3E%3Cpath d='M 40 38 Q 50 45 60 38' fill='none' stroke='%23333' stroke-width='2'/%3E%3C!-- Legs --%3E%3Crect x='40' y='100' width='8' height='30' fill='%23222'/%3E%3Crect x='52' y='100' width='8' height='30' fill='%23222'/%3E%3C!-- Feet --%3E%3Crect x='35' y='130' width='13' height='5' fill='%23111'/%3E%3Crect x='52' y='130' width='13' height='5' fill='%23111'/%3E%3C!-- Hair --%3E%3Cpath d='M 30 20 Q 50 0 70 20' fill='%23333'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+    }
+    
+    .qr-plate {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background-color: transparent;
+      top: 48px;
+      left: 0;
+    }
+    
+    .download-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+    
+    .download-btn {
+      padding: 10px 15px;
+      background: #4299e1;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .download-btn:hover {
+      background: #3182ce;
+    }
+    
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+      
+      h2 {
+        font-size: 26px;
+      }
+      
+      input, button {
+        padding: 12px;
+      }
+      
+      .download-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>QR & Barcode Generator</h2>
+    
+    <div class="input-group">
+      <input type="text" id="text" placeholder="Enter text or number for your code" />
+    </div>
+    
+    <button onclick="generateCodes()">Generate Codes</button>
+    
+    <div class="waiter-container" id="waiterContainer">
+      <div class="waiter" id="waiter">
+        <div class="qr-plate" id="qrPlate"></div>
+      </div>
+    </div>
+    
+    <div class="output" id="outputContainer">
+      <div class="output-section">
+        <h3>QR Code</h3>
+        <div class="code-display">
+          <div id="qrcode"></div>
+        </div>
+      </div>
+      
+      <div class="output-section">
+        <h3>Barcode</h3>
+        <div class="code-display">
+          <svg id="barcode"></svg>
+        </div>
+      </div>
+      
+      <div class="download-buttons">
+        <button class="download-btn" onclick="downloadQR()">Download QR Code</button>
+        <button class="download-btn" onclick="downloadBarcode()">Download Barcode</button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Initialize variables
+    let qrImage = null;
+    let miniQrImage = null;
+    
+    function generateCodes() {
+      let text = document.getElementById("text").value;
+      if (!text) {
+        alert("Please enter some text or a number");
+        return;
+      }
+      
+      // Clear previous codes
+      document.getElementById("qrcode").innerHTML = "";
+      
+      // Generate QR Code
+      new QRCode(document.getElementById("qrcode"), {
+        text: text,
+        width: 150,
+        height: 150,
+        colorDark: "#2d3748",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      
+      // Generate Barcode
+      JsBarcode("#barcode", text, {
+        format: "CODE128",
+        displayValue: true,
+        fontSize: 18,
+        height: 80,
+        margin: 10,
+        background: "#ffffff",
+        lineColor: "#2d3748"
+      });
+      
+      // Get QR code image for waiter's tray
+      setTimeout(() => {
+        qrImage = document.querySelector("#qrcode img");
+        
+        // Create miniature QR for the tray
+        createMiniQR(text);
+        
+        // Show output and animate waiter
+        document.getElementById("outputContainer").style.display = "block";
+        document.getElementById("waiterContainer").style.display = "block";
+        animateWaiter();
+      }, 100);
+    }
+    
+    function createMiniQR(text) {
+      // Create a temporary div for the mini QR
+      const miniQrDiv = document.createElement("div");
+      miniQrDiv.style.position = "absolute";
+      miniQrDiv.style.visibility = "hidden";
+      document.body.appendChild(miniQrDiv);
+      
+      // Generate a smaller QR code
+      new QRCode(miniQrDiv, {
+        text: text,
+        width: 40,
+        height: 40,
+        colorDark: "#2d3748",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      
+      // Get the mini QR image and add it to the plate
+      setTimeout(() => {
+        miniQrImage = miniQrDiv.querySelector("img");
+        const qrPlate = document.getElementById("qrPlate");
+        qrPlate.innerHTML = "";
+        qrPlate.appendChild(miniQrImage.cloneNode(true));
+        miniQrDiv.remove();
+      }, 50);
+    }
+    
+    function animateWaiter() {
+      const waiter = document.getElementById("waiter");
+      const waiterContainer = document.getElementById("waiterContainer");
+      const containerWidth = waiterContainer.offsetWidth;
+      
+      // Reset position
+      gsap.set(waiter, { left: -150 });
+      
+      // Animate waiter carrying QR code
+      gsap.timeline()
+        .to(waiter, { 
+          left: containerWidth + 150, 
+          duration: 5, 
+          ease: "power1.inOut",
+          onComplete: () => {
+            // Optional: repeat animation
+            // setTimeout(animateWaiter, 1000);
+          }
+        });
+    }
+    
+    function downloadQR() {
+      if (!qrImage) return;
+      
+      const link = document.createElement("a");
+      link.href = qrImage.src;
+      link.download = "qrcode.png";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    
+    function downloadBarcode() {
+      const barcodeElement = document.getElementById("barcode");
+      const svgData = new XMLSerializer().serializeToString(barcodeElement);
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      
+      const img = new Image();
+      img.onload = function() {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        
+        const link = document.createElement("a");
+        link.href = canvas.toDataURL("image/png");
+        link.download = "barcode.png";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };
+      
+      img.src = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData)));
+    }
+    
+    // Add enter key event listener for the input field
+    document.getElementById("text").addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        generateCodes();
+      }
+    });
+  </script>
+</body>
+</html>
