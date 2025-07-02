@@ -1,0 +1,55 @@
+# robots.txt for khatripramod.com.np
+# This file tells search engine crawlers which pages they can and cannot access
+
+# Allow all web crawlers to access all content
+User-agent: *
+Allow: /
+
+# Disallow access to common files that shouldn't be indexed
+Disallow: /style.css
+Disallow: /icon.png
+Disallow: /*.js$
+Disallow: /assets/
+Disallow: /images/
+Disallow: /css/
+Disallow: /js/
+
+# Allow access to important files
+Allow: /PramodKhatriCV.pdf
+
+# Crawl delay (optional - be respectful to servers)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://khatripramod.com.np/sitemap.xml
+
+# Additional sitemap URLs (if you have multiple)
+# Sitemap: https://khatripramod.com.np/sitemap-projects.xml
+# Sitemap: https://khatripramod.com.np/sitemap-blog.xml
+
+# Block access to admin areas (if you add them later)
+# Disallow: /admin/
+# Disallow: /login/
+# Disallow: /dashboard/
+
+# Block access to development/testing files
+Disallow: /test/
+Disallow: /dev/
+Disallow: /*.txt$
+Disallow: /*.log$
+Disallow: /*.bak$
+
+# Allow social media crawlers for better sharing
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Google specific settings
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
