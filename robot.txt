@@ -25,7 +25,6 @@ Sitemap: https://khatripramod.com.np/sitemap.xml
 
 # Additional sitemap URLs (if you have multiple)
 # Sitemap: https://khatripramod.com.np/sitemap-projects.xml
-# Sitemap: https://khatripramod.com.np/sitemap-blog.xml
 
 # Block access to admin areas (if you add them later)
 # Disallow: /admin/

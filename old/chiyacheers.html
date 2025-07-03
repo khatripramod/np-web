@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiya and Cheers</title>
+    <link rel="stylesheet" href="chiya.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header-gradient text-white py-12 shadow-md">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex flex-col items-center">
+                <h1 class="text-3xl font-bold text-center" style="font-family: 'Dancing Script', cursive;">Chiya and Cheers</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto p-4 mt-4">
+        <div class="grid lg:grid-cols-3 gap-6">
+            <!-- Menu Section -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Categories -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="showCategory('tea', event)" class="category-btn active">Tea</button>
+                    <button onclick="showCategory('coffee', event)" class="category-btn">Coffee</button>
+                    <button onclick="showCategory('food', event)" class="category-btn">Food</button>
+                    <button onclick="showCategory('all', event)" class="category-btn">All</button>
+                </div>
+
+                <!-- Menu Items - Horizontal Layout -->
+                <div id="menuItems" class="horizontal-menu"></div>
+            </div>
+
+            <!-- Bill Section -->
+            <div class="bill-container p-5 h-fit sticky top-4">
+                <div class="flex justify-between items-center mb-5">
+                    <h2 class="text-xl font-bold text-amber-900">Your Order</h2>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">Table:</span>
+                        <select id="tableNo" onchange="switchTable()" class="custom-table-select">
+                            <option value="1">Table 1</option>
+                            <option value="2">Table 2</option>
+                            <option value="3">Table 3</option>
+                            <option value="4">Table 4</option>
+                            <option value="5">Table 5</option>
+                            <option value="6">Table 6</option>
+                            <option value="7">Table 7</option>
+                            <option value="8">Table 8</option>
+                            <option value="9">Table 9</option>
+                        </select>
+                    </div>        
+                </div>
+            
+                <!-- Order Items Table -->
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Price</th>
+                            <th>Qty</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderItems">
+                        <tr>
+                            <td colspan="5" class="text-center text-gray-500">No items added</td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <!-- Total -->
+                <div class="mt-5">
+                    <div class="flex justify-between text-lg font-bold text-amber-900 pt-2">
+                       <h3> <span>Total:</span>
+                        <span id="total">Rs. 0</span></h3>
+                    </div>
+                </div>
+            
+                <!-- Status Message Container -->
+                <div id="statusMessage" class="mt-3 hidden"></div>
+                
+                <!-- Buttons -->
+                <div class="mt-5 space-y-3">
+                    <button id="generateBillBtn" onclick="generateBill()" class="w-full bg-amber-800 hover:bg-amber-700 text-white py-3 rounded-lg shadow-sm transition-all flex items-center justify-center">
+                        <span class="mr-2">📝</span> Generate Bill
+                    </button>
+                    <button onclick="clearOrder()" class="w-full border border-gray-300 hover:bg-gray-100 py-3 rounded-lg transition-all">
+                        Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Google Apps Script Web App URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwoD3TCZN6gavDKtBSVpm3dkBil4QGxKeEi6mTa2Gkt-8Wu8eYJ2hwOrbr8bmLdm_gyLA/exec';
+        
+        const menu = {
+            tea: [
+                { id: 1, name: 'Masala milk Tea', price: 40 },
+                { id: 2, name: 'Milk Tea', price: 30 },
+                { id: 3, name: 'Matka milk Tea', price: 50 },
+                { id: 4, name: 'Lemon Tea', price: 35 },
+                { id: 5, name: 'Black Tea', price: 30 },
+                { id: 6, name: 'Masala Black Tea', price: 40 },
+                { id: 7, name: 'Hot Lemon with Honey', price: 40 }
+            ],
+            coffee: [
+                { id: 8, name: 'Black Coffee', price: 50 },
+                { id: 9, name: 'Milk Coffee', price: 60 },
+                { id: 10, name: 'Hot Latte', price: 120 },
+                { id: 11, name: 'Cappuccino', price: 120 },
+                { id: 12, name: 'Americano', price: 100 }
+            ],
+            food: [
+                { id: 13, name: 'Chicken MoMo', price: 180 },
+                { id: 14, name: 'Buff MoMo', price: 140 },
+                { id: 15, name: 'Masala Fries', price: 120 },
+                { id: 16, name: 'Chauchau Sadeko', price: 120 },
+                { id: 17, name: 'Peanut Sadeko', price: 100 },
+                { id: 18, name: 'Chicken sausage', price: 60 },
+                { id: 19, name: 'Buff sausage', price: 50 }
+            ]
+        };
+
+        let ordersByTable = {}; // Object to store orders by table number
+        let currentTable = '1'; // Default table number
+        let currentOrder = []; // Current order for the selected table
+
+        // Show category
+        function showCategory(category, e) {
+            const menuContainer = document.getElementById('menuItems');
+            menuContainer.innerHTML = '';
+
+            // Update category buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (e && e.target) {
+                e.target.classList.add('active');
+            }
+
+            let items = [];
+            if (category === 'all') {
+                items = [...menu.tea, ...menu.coffee, ...menu.food];
+            } else {
+                items = menu[category];
+            }
+
+            items.forEach(item => {
+                const itemElement = `
+                    <div class="item-card menu-item w-full">
+                        <div class="flex-1">
+                            <h3 class="font-medium text-amber-900">${item.name}</h3>
+                            <div class="text-amber-600 font-medium">Rs. ${item.price}</div>
+                        </div>
+                        <button onclick="addToOrder(${item.id})" 
+                            class="add-btn px-4 py-2 bg-amber-800 text-white rounded-lg hover:bg-amber-700 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                            Add
+                        </button>
+                    </div>
+                `;
+                menuContainer.innerHTML += itemElement;
+            });
+        }
+
+        // Add to order
+        function addToOrder(id) {
+            const allItems = [...menu.tea, ...menu.coffee, ...menu.food];
+            const item = allItems.find(i => i.id === id);
+            const existingItem = currentOrder.find(i => i.id === id);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                currentOrder.push({ ...item, quantity: 1 });
+            }
+            updateBill();
+        }
+
+        // Update bill
+        // Update the updateBill function to include + and - buttons for quantity
+
+function updateBill() {
+    const orderContainer = document.getElementById('orderItems');
+    
+    if (currentOrder.length === 0) {
+        orderContainer.innerHTML = `
+            <tr>
+                <td colspan="5" class="text-center text-gray-500">No items added</td>
+            </tr>
+        `;
+        document.getElementById('total').textContent = 'Rs. 0';
+        return;
+    }
+
+    orderContainer.innerHTML = currentOrder.map(item => `
+        <tr>
+            <td class="text-amber-900 font-medium">${item.name}</td>
+            <td class="text-amber-700">Rs. ${item.price}</td>
+            <td class="text-amber-700">
+                <div class="flex items-center">
+                    <button onclick="decreaseQuantity(${item.id})" class="quantity-btn quantity-decrease">-</button>
+                    <span class="mx-2">${item.quantity}</span>
+                    <button onclick="increaseQuantity(${item.id})" class="quantity-btn quantity-increase">+</button>
+                </div>
+            </td>
+            <td class="font-medium">Rs. ${item.price * item.quantity}</td>
+            <td>
+                <button onclick="removeFromOrder(${item.id})" class="text-red-500 hover:bg-red-50 h-6 w-6 rounded-full flex items-center justify-center transition-colors">
+                    x
+                </button>
+            </td>
+        </tr>
+    `).join('');
+
+    const total = currentOrder.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    document.getElementById('total').textContent = `Rs. ${total}`;
+}
+
+// Add two new functions to handle increasing and decreasing quantities
+
+function increaseQuantity(id) {
+    const item = currentOrder.find(i => i.id === id);
+    if (item) {
+        item.quantity += 1;
+        updateBill();
+    }
+}
+
+function decreaseQuantity(id) {
+    const item = currentOrder.find(i => i.id === id);
+    if (item && item.quantity > 1) {
+        item.quantity -= 1;
+        updateBill();
+    } else if (item && item.quantity === 1) {
+        // Optional: If quantity becomes 0, remove the item
+        removeFromOrder(id);
+    }
+}
+
+        // Remove from order
+        function removeFromOrder(id) {
+            currentOrder = currentOrder.filter(item => item.id !== id);
+            updateBill();
+        }
+
+        // Generate bill and send data to Google Sheets
+        function generateBill() {
+            if (currentOrder.length === 0) {
+                showStatusMessage('Please add items to generate bill', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const billBtn = document.getElementById('generateBillBtn');
+            const originalBtnText = billBtn.innerHTML;
+            billBtn.disabled = true;
+            billBtn.innerHTML = '<div class="loading-spinner"></div>';
+            
+            const tableNo = document.getElementById('tableNo').value;
+            const currentDate = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+            const totalAmount = currentOrder.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // Prepare data for Google Sheets
+            const promises = currentOrder.map(item => {
+                const orderData = {
+                    date: currentDate,
+                    tableNumber: tableNo,
+                    itemName: item.name,
+                    price: item.price,
+                    quantity: item.quantity,
+                    totalAmount: item.price * item.quantity
+                };
+                
+                return sendToGoogleSheets(orderData);
+            });
+            
+            Promise.all(promises)
+                .then(responses => {
+                    showStatusMessage('Bill generated and saved successfully!', 'success');
+                    
+                    // Display bill details to user
+                    let billDetails = `Bill for Table ${tableNo}\n\n`;
+                    billDetails += `Date: ${currentDate}\n`;
+                    billDetails += `Item\t\tPrice\tQty\tTotal\n`;
+                    billDetails += `----------------------------------------\n`;
+                    currentOrder.forEach(item => {
+                        billDetails += `${item.name}\tRs.${item.price}\t${item.quantity}\tRs.${item.price * item.quantity}\n`;
+                    });
+                    billDetails += `----------------------------------------\n`;
+                    billDetails += `Total: Rs. ${totalAmount}`;
+                    
+                    alert(billDetails);
+                    clearOrder();
+                })
+                .catch(error => {
+                    showStatusMessage('Failed to save bill data: ' + error.message, 'error');
+                    console.error('Error sending data to Google Sheets:', error);
+                })
+                .finally(() => {
+                    // Restore button state
+                    billBtn.disabled = false;
+                    billBtn.innerHTML = originalBtnText;
+                });
+        }
+        
+        // Send data to Google Sheets
+        function sendToGoogleSheets(data) {
+    return new Promise((resolve, reject) => {
+        // Create a unique callback name
+        const callbackName = 'googleScript_callback_' + Math.floor(Math.random() * 1000000);
+        
+        // Add the callback to window
+        window[callbackName] = function(response) {
+            // Clean up after execution
+            delete window[callbackName];
+            document.body.removeChild(script);
+            
+            if (response.result === 'success') {
+                resolve(response);
+            } else {
+                reject(new Error(response.message || 'Unknown error'));
+            }
+        };
+        
+        // Create URL with parameters
+        const params = new URLSearchParams({
+            date: data.date,
+            tableNumber: data.tableNumber,
+            itemName: data.itemName,
+            price: data.price,
+            quantity: data.quantity,
+            totalAmount: data.totalAmount,
+            callback: callbackName
+        }).toString();
+        
+        // Create script element
+        const script = document.createElement('script');
+        script.src = `${SCRIPT_URL}?${params}`;
+        script.onerror = () => {
+            // Clean up on error
+            delete window[callbackName];
+            document.body.removeChild(script);
+            reject(new Error('Failed to load the script'));
+        };
+        
+        // Add script to document
+        document.body.appendChild(script);
+    });
+}
+        
+        // Show status message
+        function showStatusMessage(message, type) {
+    const statusContainer = document.getElementById('statusMessage');
+    statusContainer.innerHTML = message;
+    statusContainer.className = type === 'success' ? 'success-message' : 'error-message';
+    statusContainer.classList.remove('hidden');
+    statusContainer.classList.remove('hiding');
+    
+    // Hide message after 5 seconds with fade-out effect
+    setTimeout(() => {
+        statusContainer.classList.add('hiding');
+        setTimeout(() => {
+            statusContainer.classList.add('hidden');
+        }, 500); // Time for fade-out animation
+    }, 4500); // Total visible time still ~5 seconds
+}
+
+        // Clear order
+        function clearOrder() {
+            currentOrder = [];
+            updateBill();
+            
+            // Clear status message
+            const statusContainer = document.getElementById('statusMessage');
+            statusContainer.classList.add('hidden');
+        }
+
+        // Switch table
+        function switchTable() {
+            const newTable = document.getElementById('tableNo').value;
+
+            // Save the current order to the ordersByTable object
+            ordersByTable[currentTable] = currentOrder;
+
+            // Update the current table
+            currentTable = newTable;
+
+            // Load the order for the new table
+            currentOrder = ordersByTable[currentTable] || [];
+
+            // Update the bill display
+            updateBill();
+        }
+
+        // Initialize
+        showCategory('tea');
+    </script>
+</body>
+</html>

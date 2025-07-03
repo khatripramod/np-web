@@ -1,0 +1,406 @@
+/* Custom CSS for better UI */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f5f1;
+}
+
+.header-gradient {
+    background: linear-gradient(to right, #cc8f64, #ebba7a);
+}
+
+.menu-item {
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.menu-item:hover {
+    transform: translateY(-3px);
+    border-left: 3px solid #ffb95d;
+}
+
+.category-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    background-color: #f3f4f6;
+    color: #4b5563;
+    transition: all 0.3s ease;
+}
+
+.category-btn.active {
+    background-color: #cc8f64;
+    color: white;
+}
+
+.category-btn:hover {
+    background-color: #cc8f64;
+    color: white;
+}
+
+.horizontal-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.item-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.bill-container {
+    background: linear-gradient(to bottom, #fff, #f9f9f9);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* Animation for add button */
+.add-btn {
+    transition: all 0.2s ease;
+    margin-left: 20px;
+}
+
+.add-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Custom scrollbar for order items */
+#orderItems::-webkit-scrollbar {
+    width: 6px;
+}
+
+#orderItems::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+#orderItems::-webkit-scrollbar-thumb {
+    background: #d0a072;
+    border-radius: 10px;
+}
+
+/* Table styling for order items */
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-table th, .order-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.order-table th {
+    background-color: #f9fafb;
+    color: #4b5563;
+}
+
+.order-table td {
+    color: #6b7280;
+}
+
+.order-table tr:hover {
+    background-color: #f9fafb;
+}
+/* Custom styling for the select element */
+.custom-table-select {
+    width: 200px; /* Adjust width */
+    padding: 10px 15px; /* Adjust padding */
+    border-radius: 8px; /* Rounded corners */
+    border: 2px solid #fbbf24; /* Amber border color */
+    background-color: #ffffff; /* Light amber background */
+    color: #000000; /* Amber text color */
+    font-size: 14px; /* Font size */
+    font-family: 'Arial', sans-serif; /* Font family */
+    transition: all 0.3s ease; /* Smooth transition on focus */
+}
+
+/* Focus effect when the select is clicked */
+.custom-table-select:focus {
+    outline: none;
+    border-color: #d97706; /* Darker amber on focus */
+    box-shadow: 0 0 5px rgba(250, 186, 53, 0.5); /* Amber glow effect */
+}
+
+/* Style for the options inside the select dropdown */
+.custom-table-select option {
+    padding: 8px 10px;
+    background-color: #fef3c7; /* Light amber background */
+    color: #000000; /* Amber text color */
+}
+
+.custom-table-select option:hover {
+    background-color: #fcd34d; /* Darker amber on hover */
+}
+
+/* Loading spinner */
+.loading-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: #cc8f64;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.success-message {
+    background-color: #dcfce7;
+    color: #166534;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.error-message {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+#generateBillBtn {
+width: 100%;
+background: linear-gradient(135deg, #e07a5f, #d17349);
+color: white;
+font-weight: 600;
+padding: 12px;
+border-radius: 12px;
+border: none;
+box-shadow: 0 4px 12px rgba(204, 143, 100, 0.25);
+transition: all 0.3s ease;
+letter-spacing: 0.5px;
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+overflow: hidden;
+}
+
+#generateBillBtn:hover {
+background: linear-gradient(135deg, #e2896b, #dd7f57);
+transform: translateY(-2px);
+box-shadow: 0 6px 15px rgba(204, 143, 100, 0.3);
+}
+
+#generateBillBtn:active {
+transform: translateY(1px);
+box-shadow: 0 2px 8px rgba(204, 143, 100, 0.2);
+}
+
+#generateBillBtn span {
+font-size: 18px;
+margin-right: 8px;
+}
+
+#generateBillBtn::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 0;
+background: rgba(255, 255, 255, 0.1);
+transition: height 0.3s ease;
+z-index: 1;
+}
+
+#generateBillBtn:hover::after {
+height: 100%;
+}
+.success-message, .error-message {
+opacity: 1;
+transition: opacity 0.5s ease-out;
+animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+from { transform: translateY(-10px); opacity: 0; }
+to { transform: translateY(0); opacity: 1; }
+}
+
+.success-message.hiding, .error-message.hiding {
+opacity: 0;
+}
+button[onclick="clearOrder()"] {
+width: 100%;
+background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+color: #6c757d;
+font-weight: 600;
+padding: 12px;
+border-radius: 12px;
+border: 1px solid rgba(0,0,0,0.1);
+box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+transition: all 0.3s ease;
+letter-spacing: 0.5px;
+position: relative;
+overflow: hidden;
+}
+
+button[onclick="clearOrder()"]:hover {
+background: linear-gradient(135deg, #e9ecef, #dee2e6);
+color: #495057;
+transform: translateY(-2px);
+box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+
+button[onclick="clearOrder()"]:active {
+transform: translateY(1px);
+box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+button[onclick="clearOrder()"]::before {
+content: '🗑️';
+margin-right: 8px;
+font-size: 16px;
+}
+
+button[onclick="clearOrder()"]::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 0;
+background: rgba(0, 0, 0, 0.03);
+transition: height 0.3s ease;
+z-index: 1;
+}
+
+button[onclick="clearOrder()"]:hover::after {
+height: 100%;
+}
+/* Styling for quantity adjustment buttons */
+.quantity-btn {
+width: 30px;
+height: 15px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 16px;
+font-weight: bold;
+cursor: pointer;
+transition: all 0.2s ease;
+user-select: none;
+}
+
+.quantity-decrease {
+background-color: #fee2e2;
+color: #b91c1c;
+border: 1px solid #fecaca;
+}
+
+.quantity-increase {
+background-color: #d1fae5;
+color: #047857;
+border: 1px solid #a7f3d0;
+}
+
+.quantity-btn:hover {
+transform: scale(1.1);
+}
+
+.quantity-decrease:hover {
+background-color: #fecaca;
+}
+
+.quantity-increase:hover {
+background-color: #a7f3d0;
+}
+
+.quantity-btn:active {
+transform: scale(0.95);
+}
+.add-btn {
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 15px 20px;
+background: linear-gradient(135deg, #f59e0b, #d97706);
+color: white;
+font-weight: 600;
+border-radius: 7px;
+border: none;
+box-shadow: 0 3px 8px rgba(217, 119, 6, 0.25);
+transition: all 0.3s ease;
+letter-spacing: 0.3px;
+position: relative;
+overflow: hidden;
+}
+
+
+
+.add-btn:active {
+transform: translateY(1px);
+box-shadow: 0 2px 5px rgba(217, 119, 6, 0.2);
+}
+
+.add-btn svg {
+width: 16px;
+height: 16px;
+margin-right: 4px;
+
+}
+
+.add-btn:hover svg {
+transform: rotate(90deg);
+}
+
+.add-btn::after {
+content: '';
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 0;
+background: rgba(255, 255, 255, 0.15);
+transition: height 0.3s ease;
+z-index: 1;
+}
+
+/* Add spacing between category buttons and menu items */
+.horizontal-menu {
+margin-top: 5px;
+padding-top: 5px;
+border-top: 1px solid rgba(204, 143, 100, 0.2);
+}
+
+/* Optional: Add a subtle visual indicator */
+.horizontal-menu::before {
+content: '';
+display: block;
+width: 50px;
+height: 3px;
+background: linear-gradient(to right, #cc8f64, transparent);
+margin-bottom: 15px;
+border-radius: 2px;
+}
+
+/* Enhance the category selection area */
+.flex.flex-wrap.gap-2 {
+padding-bottom: 15px;
+position: relative;
+}
+/* Center the "Chiya and Cheers" header text */
+.header-gradient h1 {
+width: 100%;
+text-align: center;
+}
